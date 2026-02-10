@@ -1,5 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import DOMPurify from "dompurify";
+import'../styles/BookDetails.css';
 
 function BookDetails() {
   const { id } = useParams();
@@ -37,39 +39,41 @@ function BookDetails() {
 
   return (
     <div className="book-details">
-      <button className="back-button" onClick={() => navigate(-1)}>
-        ⬅ Voltar
-      </button>
+  <button className="back-button" onClick={() => navigate(-1)}>
+    ← Voltar
+  </button>
 
-      <div className="details-content">
-        <img
-          src={
-            book.imageLinks?.thumbnail ||
-            "https://via.placeholder.com/200x300?text=Sem+imagem"
-          }
-          alt={book.title}
-        />
+  <div className="book-card">
+    <img
+      src={
+        book.imageLinks?.thumbnail ||
+        "https://via.placeholder.com/200x300?text=Sem+imagem"
+      }
+      alt={book.title}
+      className="book-cover"
+    />
 
-        <div className="info">
-          <h1>{book.title}</h1>
+    <div className="book-info">
+      <h1>{book.title}</h1>
 
-          <p>
-            <strong>Autor:</strong>{" "}
-            {book.authors ? book.authors.join(", ") : "Autor desconhecido"}
-          </p>
+      <p className="author">
+        {book.authors ? book.authors.join(", ") : "Autor desconhecido"}
+      </p>
 
-          <p>
-            <strong>Descrição:</strong>{" "}
-            {book.description || "Descrição indisponível."}
-          </p>
-
-          <p>
-            <strong>Data de publicação:</strong>{" "}
-            {book.publishedDate || "Não informada"}
-          </p>
-        </div>
-      </div>
+      <div
+  className="description"
+  dangerouslySetInnerHTML={{
+    __html: DOMPurify.sanitize(
+      book.description || "Descrição indisponível."
+    ),
+  }}
+/>
+      <span className="date">
+        Publicado em {book.publishedDate || "—"}
+      </span>
     </div>
+  </div>
+</div>
   );
 }
 
