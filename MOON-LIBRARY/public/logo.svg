@@ -1,0 +1,20 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fundo -->
+  <rect width="200" height="200" fill="#f6f6f6" rx="10"/>
+  
+  <!-- Lua -->
+  <circle cx="100" cy="80" r="40" fill="#2c3e50"/>
+  
+  <!-- Primeira estrela -->
+  <polygon points="150,40 155,55 171,55 160,65 165,80 150,70 135,80 140,65 129,55 145,55" fill="#ffc107"/>
+  
+  <!-- Segunda estrela -->
+  <polygon points="180,100 183,108 192,108 186,113 189,121 180,116 171,121 174,113 168,108 177,108" fill="#ffc107"/>
+  
+  <!-- Livro aberto -->
+  <g transform="translate(100, 140)">
+    <path d="M -25 -10 L -20 15 Q 0 20 20 15 L 25 -10" fill="none" stroke="#111" stroke-width="2.5"/>
+    <line x1="-25" y1="-10" x2="25" y2="-10" stroke="#111" stroke-width="2.5"/>
+    <line x1="0" y1="-10" x2="0" y2="15" stroke="#666" stroke-width="1.5"/>
+  </g>
+</svg>

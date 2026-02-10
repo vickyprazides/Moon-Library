@@ -8,6 +8,8 @@ import '../styles/Home.css'
 function Home() {
   // Estado para armazenar a query de busca
   const [searchQuery, setSearchQuery] = useState('')
+  // controlar se a logo carregou corretamente
+  const [logoError, setLogoError] = useState(false)
 
   // Estado para armazenar os livros retornados pela API
   const [books, setBooks] = useState([])
@@ -98,8 +100,23 @@ function Home() {
     <div className="home">
       {/* Cabeçalho com título do projeto */}
       <header className="home-header">
-        <h1 className="home-title">📚 Moon Library</h1>
-        <p className="home-subtitle">Descubra seus próximos livros favoritos</p>
+        <div className="home-brand">
+          {!logoError ? (
+            <img
+              src="/logo.svg"
+              alt="Moon Library"
+              className="header-logo"
+              onError={() => setLogoError(true)}
+            />
+          ) : (
+            <span className="home-emoji">📚</span>
+          )}
+
+          <div>
+            <h1 className="home-title">Moon Library</h1>
+            <p className="home-subtitle">Descubra seus próximos livros favoritos</p>
+          </div>
+        </div>
       </header>
 
       {/* Seção de busca */}
@@ -122,6 +139,16 @@ function Home() {
           >
             {loading ? 'Buscando...' : 'Pesquisar'}
           </button>
+          {/* Botão Voltar - aparece quando há resultados de busca */}
+          {books.length > 0 && (
+            <button
+              className="back-button"
+              onClick={() => setBooks([])}
+              aria-label="Voltar para home"
+            >
+              ← Voltar
+            </button>
+          )}
         </div>
       </section>
 
