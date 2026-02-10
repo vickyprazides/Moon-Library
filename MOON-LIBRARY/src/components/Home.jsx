@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import '../styles/Home.css'
-
+import { Link } from "react-router-dom";
 
 /**
  * Componente Home - Tela principal do site de livros
@@ -178,15 +178,18 @@ function Home() {
               const bookInfo = getBookInfo(book)
               return (
                 <article key={bookInfo.id} className="book-card">
-                  {/* Capa do livro */}
-                  <div className="book-image-container">
-                    <img
-                      src={bookInfo.image}
-                      alt={`Capa de ${bookInfo.title}`}
-                      className="book-image"
-                      loading="lazy"
-                    />
-                  </div>
+                  <Link to={`/produto/${bookInfo.id}`} className="book-link">
+
+                    {/* Capa do livro */}
+                    <div className="book-image-container">
+                      <img
+                        src={bookInfo.image}
+                        alt={`Capa de ${bookInfo.title}`}
+                        className="book-image"
+                        loading="lazy"
+                      />
+                    </div>
+                  </Link>
 
                   {/* Informações do livro */}
                   <div className="book-info">
