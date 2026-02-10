@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Splash from './components/Splash'
 import Home from './components/Home'
 import BookDetails from './Pages/BookDetails'
+import Favorites from './pages/favorites'
+import { FavoritesProvider } from './contexts/FavoritesContext'
 import './App.css'
 
 /**
@@ -27,12 +29,15 @@ function App() {
 
       {/* Rotas da aplicação (após Splash) */}
       {!showSplash && (
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/produto/:id" element={<BookDetails />} />
-          </Routes>
-        </BrowserRouter>
+        <FavoritesProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/produto/:id" element={<BookDetails />} />
+              <Route path="/favoritos" element={<Favorites />} />
+            </Routes>
+          </BrowserRouter>
+        </FavoritesProvider>
       )}
     </>
   )
