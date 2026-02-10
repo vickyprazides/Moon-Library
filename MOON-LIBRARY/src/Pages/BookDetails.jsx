@@ -1,7 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import "./BookDetails.css";
 
 function BookDetails() {
   const { id } = useParams(); // pega o id da URL
