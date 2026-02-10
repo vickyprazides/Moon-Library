@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import '../styles/Home.css'
 
+
 /**
  * Componente Home - Tela principal do site de livros
  * Utiliza a Google Books API para buscar livros por título ou autor
