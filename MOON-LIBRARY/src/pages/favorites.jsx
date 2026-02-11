@@ -10,16 +10,11 @@ function Favorites() {
   const { favorites, removeFavorite } = useFavorites()
 
   const getImageUrl = (imageUrl) => {
-    if (!imageUrl) return 'https://via.placeholder.com/128x196?text=Sem+imagem'
+    if (!imageUrl) return `https://via.placeholder.com/128x196/9c27b0/ffffff?text=Livro`
     
     let url = imageUrl;
     if (url.startsWith('http://')) {
       url = url.replace('http://', 'https://')
-    }
-    
-    // Usar proxy para evitar problemas de CORS
-    if (url && !url.includes('placeholder')) {
-      url = `https://images.weserv.nl/?url=${encodeURIComponent(url)}`
     }
     
     return url

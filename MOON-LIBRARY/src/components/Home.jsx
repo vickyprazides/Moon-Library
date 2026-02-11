@@ -120,16 +120,18 @@ function Home() {
    */
   const getBookInfo = (book) => {
     const volumeInfo = book.volumeInfo || {}
-    let imageUrl = volumeInfo.imageLinks?.thumbnail || 'https://via.placeholder.com/128x196?text=Sem+imagem'
+    // Tenta thumbnail primeiro, depois smallThumbnail
+    let imageUrl = volumeInfo.imageLinks?.thumbnail || volumeInfo.imageLinks?.smallThumbnail || ''
     
-    // Converter HTTP para HTTPS e usar proxy para evitar CORS
+    // Converter HTTP para HTTPS
     if (imageUrl.startsWith('http://')) {
       imageUrl = imageUrl.replace('http://', 'https://')
     }
     
-    // Usar proxy para evitar problemas de CORS com Google Books
-    if (imageUrl && !imageUrl.includes('placeholder')) {
-      imageUrl = `https://images.weserv.nl/?url=${encodeURIComponent(imageUrl)}`
+    // Se não tiver imagem, usar placeholder com letra inicial do livro
+    if (!imageUrl) {
+      const firstLetter = (volumeInfo.title || 'L')[0].toUpperCase()
+      imageUrl = `https://via.placeholder.com/128x196/9c27b0/ffffff?text=${firstLetter}`
     }
     
     return {

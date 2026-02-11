@@ -2,7 +2,6 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useFavorites } from "../contexts/FavoritesContext";
 import '../styles/BookDetails.css';
-import DOMPurify from "dompurify";
 
 function BookDetails() {
   const { id } = useParams();
@@ -42,16 +41,13 @@ function BookDetails() {
   if (error) return <p>{error}</p>;
 
   const getImageUrl = (imageUrl) => {
-    if (!imageUrl) return 'https://via.placeholder.com/200x300?text=Sem+imagem';
+    if (!imageUrl) {
+      return `https://via.placeholder.com/200x300/9c27b0/ffffff?text=Livro`;
+    }
     
     let url = imageUrl;
     if (url.startsWith('http://')) {
       url = url.replace('http://', 'https://');
-    }
-    
-    // Usar proxy para evitar problemas de CORS
-    if (url && !url.includes('placeholder')) {
-      url = `https://images.weserv.nl/?url=${encodeURIComponent(url)}`;
     }
     
     return url;
@@ -106,14 +102,10 @@ function BookDetails() {
         {book.authors ? book.authors.join(", ") : "Autor desconhecido"}
       </p>
 
-      <div
-  className="description"
-  dangerouslySetInnerHTML={{
-    __html: DOMPurify.sanitize(
-      book.description || "Descrição indisponível."
-    ),
-  }}
-/>
+      <p className="description">
+        {book.description || "Descrição indisponível."}
+      </p>
+
       <span className="date">
         Publicado em {book.publishedDate || "—"}
       </span>
