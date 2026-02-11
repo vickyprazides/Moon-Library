@@ -40,12 +40,28 @@ function BookDetails() {
   if (loading) return <p>Carregando detalhes do livro...</p>;
   if (error) return <p>{error}</p>;
 
+  const getImageUrl = (imageUrl) => {
+    if (!imageUrl) return 'https://via.placeholder.com/200x300?text=Sem+imagem';
+    
+    let url = imageUrl;
+    if (url.startsWith('http://')) {
+      url = url.replace('http://', 'https://');
+    }
+    
+    // Usar proxy para evitar problemas de CORS
+    if (url && !url.includes('placeholder')) {
+      url = `https://images.weserv.nl/?url=${encodeURIComponent(url)}`;
+    }
+    
+    return url;
+  };
+
   const handleFavorite = () => {
     const bookData = {
       id: id,
       title: book.title,
       authors: book.authors || ['Autor desconhecido'],
-      image: book.imageLinks?.thumbnail || 'https://via.placeholder.com/128x196?text=Sem+imagem',
+      image: getImageUrl(book.imageLinks?.thumbnail),
     };
     toggleFavorite(bookData);
     setFavorite(!favorite);
@@ -64,12 +80,12 @@ function BookDetails() {
 
       <div className="details-content">
         <img
-          src={
-            book.imageLinks?.thumbnail ||
-            "https://via.placeholder.com/200x300?text=Sem+imagem"
-          }
+          src={getImageUrl(book.imageLinks?.thumbnail)}
           alt={book.title}
           className="detail-image"
+          onError={(e) => {
+            e.target.src = 'https://via.placeholder.com/200x300?text=Sem+imagem';
+          }}
         />
 
         <div className="info">

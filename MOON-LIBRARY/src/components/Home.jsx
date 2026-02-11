@@ -29,6 +29,33 @@ function Home() {
   const API_BASE_URL = 'https://www.googleapis.com/books/v1/volumes'
 
   /**
+   * Carrega livros sugeridos ao montar o componente
+   */
+  useEffect(() => {
+    const loadSuggestedBooks = async () => {
+      try {
+        setLoading(true)
+        // Buscar livros populares de ficção
+        const url = `${API_BASE_URL}?q=fiction&maxResults=12&startIndex=0&orderBy=relevance`
+        const response = await fetch(url)
+        
+        if (response.ok) {
+          const data = await response.json()
+          if (data.items && data.items.length > 0) {
+            setBooks(data.items)
+          }
+        }
+      } catch (err) {
+        console.error('Erro ao carregar sugestões:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadSuggestedBooks()
+  }, [])
+
+  /**
    * Função para buscar livros na API
    * @param {string} query - Texto de busca (título ou autor)
    */
@@ -93,10 +120,22 @@ function Home() {
    */
   const getBookInfo = (book) => {
     const volumeInfo = book.volumeInfo || {}
+    let imageUrl = volumeInfo.imageLinks?.thumbnail || 'https://via.placeholder.com/128x196?text=Sem+imagem'
+    
+    // Converter HTTP para HTTPS e usar proxy para evitar CORS
+    if (imageUrl.startsWith('http://')) {
+      imageUrl = imageUrl.replace('http://', 'https://')
+    }
+    
+    // Usar proxy para evitar problemas de CORS com Google Books
+    if (imageUrl && !imageUrl.includes('placeholder')) {
+      imageUrl = `https://images.weserv.nl/?url=${encodeURIComponent(imageUrl)}`
+    }
+    
     return {
       title: volumeInfo.title || 'Título indisponível',
       authors: volumeInfo.authors || ['Autor desconhecido'],
-      image: volumeInfo.imageLinks?.thumbnail || 'https://via.placeholder.com/128x196?text=Sem+imagem',
+      image: imageUrl,
       id: book.id,
     }
   }
@@ -197,6 +236,9 @@ function Home() {
                         alt={`Capa de ${bookInfo.title}`}
                         className="book-image"
                         loading="lazy"
+                        onError={(e) => {
+                          e.target.src = 'https://via.placeholder.com/128x196?text=Sem+imagem'
+                        }}
                       />
                     </div>
                   </Link>
@@ -228,7 +270,7 @@ function Home() {
       {/* Mensagem inicial quando nenhuma busca foi feita */}
       {!loading && books.length === 0 && !error && (
         <div className="empty-state">
-          <p>Digite um título ou autor para começar a buscar livros</p>
+          <p>Nenhum livro carregado. Tente fazer uma pesquisa!</p>
         </div>
       )}
     </div>
