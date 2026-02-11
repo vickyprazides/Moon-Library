@@ -1,12 +1,8 @@
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-<<<<<<< HEAD
-import DOMPurify from "dompurify";
-import'../styles/BookDetails.css';
-=======
 import { useFavorites } from "../contexts/FavoritesContext";
 import '../styles/BookDetails.css';
->>>>>>> 0a1555fa47dafa7e0fa69466bfe3fb0a52e76066
+import DOMPurify from "dompurify";
 
 function BookDetails() {
   const { id } = useParams();
@@ -58,24 +54,6 @@ function BookDetails() {
 
   return (
     <div className="book-details">
-<<<<<<< HEAD
-  <button className="back-button" onClick={() => navigate(-1)}>
-    ← Voltar
-  </button>
-
-  <div className="book-card">
-    <img
-      src={
-        book.imageLinks?.thumbnail ||
-        "https://via.placeholder.com/200x300?text=Sem+imagem"
-      }
-      alt={book.title}
-      className="book-cover"
-    />
-
-    <div className="book-info">
-      <h1>{book.title}</h1>
-=======
       <nav className="details-nav">
         <button className="back-button" onClick={() => navigate(-1)}>
           ⬅ Voltar
@@ -107,7 +85,6 @@ function BookDetails() {
               {favorite ? '❤️' : '🤍'}
             </button>
           </div>
->>>>>>> 0a1555fa47dafa7e0fa69466bfe3fb0a52e76066
 
       <p className="author">
         {book.authors ? book.authors.join(", ") : "Autor desconhecido"}
