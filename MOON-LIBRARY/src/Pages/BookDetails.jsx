@@ -1,15 +1,22 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+<<<<<<< HEAD
 import DOMPurify from "dompurify";
 import'../styles/BookDetails.css';
+=======
+import { useFavorites } from "../contexts/FavoritesContext";
+import '../styles/BookDetails.css';
+>>>>>>> 0a1555fa47dafa7e0fa69466bfe3fb0a52e76066
 
 function BookDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { isFavorite, toggleFavorite } = useFavorites();
 
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [favorite, setFavorite] = useState(false);
 
   useEffect(() => {
     async function fetchBook() {
@@ -24,6 +31,7 @@ function BookDetails() {
 
         const data = await response.json();
         setBook(data.volumeInfo);
+        setFavorite(isFavorite(id));
       } catch (err) {
         setError(err.message);
       } finally {
@@ -32,13 +40,25 @@ function BookDetails() {
     }
 
     fetchBook();
-  }, [id]);
+  }, [id, isFavorite]);
 
   if (loading) return <p>Carregando detalhes do livro...</p>;
   if (error) return <p>{error}</p>;
 
+  const handleFavorite = () => {
+    const bookData = {
+      id: id,
+      title: book.title,
+      authors: book.authors || ['Autor desconhecido'],
+      image: book.imageLinks?.thumbnail || 'https://via.placeholder.com/128x196?text=Sem+imagem',
+    };
+    toggleFavorite(bookData);
+    setFavorite(!favorite);
+  };
+
   return (
     <div className="book-details">
+<<<<<<< HEAD
   <button className="back-button" onClick={() => navigate(-1)}>
     ← Voltar
   </button>
@@ -55,6 +75,39 @@ function BookDetails() {
 
     <div className="book-info">
       <h1>{book.title}</h1>
+=======
+      <nav className="details-nav">
+        <button className="back-button" onClick={() => navigate(-1)}>
+          ⬅ Voltar
+        </button>
+        <Link to="/favoritos" className="favorites-nav-link">
+          ❤️ Meus Favoritos
+        </Link>
+      </nav>
+
+      <div className="details-content">
+        <img
+          src={
+            book.imageLinks?.thumbnail ||
+            "https://via.placeholder.com/200x300?text=Sem+imagem"
+          }
+          alt={book.title}
+          className="detail-image"
+        />
+
+        <div className="info">
+          <div className="info-header">
+            <h1>{book.title}</h1>
+            <button
+              className={`favorite-btn-details ${favorite ? 'active' : ''}`}
+              onClick={handleFavorite}
+              title={favorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
+              aria-label={favorite ? `Remover ${book.title} dos favoritos` : `Adicionar ${book.title} aos favoritos`}
+            >
+              {favorite ? '❤️' : '🤍'}
+            </button>
+          </div>
+>>>>>>> 0a1555fa47dafa7e0fa69466bfe3fb0a52e76066
 
       <p className="author">
         {book.authors ? book.authors.join(", ") : "Autor desconhecido"}

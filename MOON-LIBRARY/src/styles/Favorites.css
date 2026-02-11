@@ -1,0 +1,242 @@
+/* Página de Favoritos */
+.favorites-page {
+  min-height: 100vh;
+  background: #f6f6f6;
+  padding: 28px 24px;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+    'Inter', system-ui, sans-serif;
+  color: #111;
+}
+
+.favorites-header {
+  text-align: center;
+  margin-bottom: 32px;
+  padding: 6px 0 18px;
+  position: relative;
+}
+
+.back-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 10px 18px;
+  background-color: white;
+  border: 1px solid #e6e6e6;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #111;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.back-link:hover {
+  background-color: #111;
+  color: white;
+  box-shadow: 0 8px 20px rgba(16,24,32,0.08);
+  transform: translateY(-2px);
+}
+
+.favorites-header h1 {
+  font-size: 2rem;
+  margin: 0;
+  font-weight: 700;
+  color: #111;
+}
+
+.favorites-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.favorites-count {
+  color: #111;
+  font-size: 1rem;
+  margin: 20px 0;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Grid de Favoritos */
+.favorites-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 18px;
+  padding: 16px;
+}
+
+.favorite-card {
+  position: relative;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform .18s ease, box-shadow .18s ease;
+  box-shadow: 0 6px 18px rgba(16,24,32,0.06);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+.favorite-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(16,24,32,0.08);
+}
+
+.favorite-card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  flex: 1;
+}
+
+.favorite-book-image {
+  width: 100%;
+  aspect-ratio: 1/1.5;
+  object-fit: cover;
+  display: block;
+  background: #fafafa;
+}
+
+.favorite-card-info {
+  padding: 12px 14px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.favorite-book-title {
+  margin: 0 0 8px 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #111;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-clamp: 2;
+  overflow: hidden;
+  min-height: 2.6em;
+}
+
+.favorite-book-author {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #666;
+  line-height: 1.2;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-clamp: 2;
+  overflow: hidden;
+  font-weight: 500;
+}
+
+/* Botão de Remover Favorito */
+.remove-favorite-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background-color: rgba(255, 255, 255, 0.95);
+  border: 2px solid #e6e6e6;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 1.3rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(16,24,32,0.08);
+}
+
+.remove-favorite-btn:hover {
+  transform: scale(1.15);
+  border-color: #111;
+  box-shadow: 0 6px 16px rgba(16,24,32,0.12);
+}
+
+/* Estado Vazio */
+.favorites-empty {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.empty-message {
+  font-size: 1.25rem;
+  color: #111;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.empty-subtext {
+  font-size: 1rem;
+  margin-bottom: 30px;
+  color: #666;
+  font-weight: 400;
+}
+
+.empty-action {
+  display: inline-block;
+  padding: 12px 22px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: white;
+  background-color: #111;
+  border: none;
+  border-radius: 12px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.empty-action:hover {
+  background-color: #222;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(16,24,32,0.08);
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .favorites-page {
+    padding: 16px;
+  }
+
+  .favorites-header h1 {
+    font-size: 1.6rem;
+  }
+
+  .favorites-grid {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .favorites-page {
+    padding: 12px;
+  }
+
+  .favorites-header h1 {
+    font-size: 1.4rem;
+  }
+
+  .favorites-grid {
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 12px;
+  }
+
+  .back-link {
+    padding: 8px 14px;
+    font-size: 0.85rem;
+  }
+}
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none;
+    animation: none;
+  }
+}

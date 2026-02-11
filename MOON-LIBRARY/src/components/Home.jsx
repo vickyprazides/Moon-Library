@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import '../styles/Home.css'
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
+import { useFavorites } from '../contexts/FavoritesContext'
 
 /**
  * Componente Home - Tela principal do site de livros
@@ -20,6 +21,9 @@ function Home() {
 
   // Estado para armazenar mensagens de erro
   const [error, setError] = useState('')
+
+  // Usar o context de favoritos
+  const { isFavorite, toggleFavorite } = useFavorites()
 
   // Constante com a URL base da Google Books API
   const API_BASE_URL = 'https://www.googleapis.com/books/v1/volumes'
@@ -115,6 +119,11 @@ function Home() {
 
           <div>
             <h1 className="home-title">Moon Library</h1>
+
+        {/* Botão para ir aos Favoritos */}
+        <Link to="/favoritos" className="favorites-link">
+          ❤️ Meus Favoritos
+        </Link>
             <p className="home-subtitle">Descubra seus próximos livros favoritos</p>
           </div>
         </div>
@@ -176,6 +185,7 @@ function Home() {
           <div className="books-grid">
             {books.map((book) => {
               const bookInfo = getBookInfo(book)
+              const favorite = isFavorite(bookInfo.id)
               return (
                 <article key={bookInfo.id} className="book-card">
                   <Link to={`/produto/${bookInfo.id}`} className="book-link">
@@ -190,6 +200,16 @@ function Home() {
                       />
                     </div>
                   </Link>
+
+                  {/* Botão de Favoritar */}
+                  <button
+                    className={`favorite-btn ${favorite ? 'active' : ''}`}
+                    onClick={() => toggleFavorite(bookInfo)}
+                    title={favorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
+                    aria-label={favorite ? `Remover ${bookInfo.title} dos favoritos` : `Adicionar ${bookInfo.title} aos favoritos`}
+                  >
+                    {favorite ? '❤️' : '🤍'}
+                  </button>
 
                   {/* Informações do livro */}
                   <div className="book-info">
@@ -216,3 +236,4 @@ function Home() {
 }
 
 export default Home
+
