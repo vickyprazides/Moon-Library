@@ -2,6 +2,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useFavorites } from "../contexts/FavoritesContext";
 import '../styles/BookDetails.css';
+import DOMPurify from "dompurify";
 
 function BookDetails() {
   const { id } = useParams();
@@ -101,23 +102,24 @@ function BookDetails() {
             </button>
           </div>
 
-          <p>
-            <strong>Autor:</strong>{" "}
-            {book.authors ? book.authors.join(", ") : "Autor desconhecido"}
-          </p>
+      <p className="author">
+        {book.authors ? book.authors.join(", ") : "Autor desconhecido"}
+      </p>
 
-          <p>
-            <strong>Descrição:</strong>{" "}
-            {book.description || "Descrição indisponível."}
-          </p>
-
-          <p>
-            <strong>Data de publicação:</strong>{" "}
-            {book.publishedDate || "Não informada"}
-          </p>
-        </div>
-      </div>
+      <div
+  className="description"
+  dangerouslySetInnerHTML={{
+    __html: DOMPurify.sanitize(
+      book.description || "Descrição indisponível."
+    ),
+  }}
+/>
+      <span className="date">
+        Publicado em {book.publishedDate || "—"}
+      </span>
     </div>
+  </div>
+</div>
   );
 }
 
